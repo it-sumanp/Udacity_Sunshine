@@ -12,8 +12,13 @@
     tools:context="if_else.in.sunshine.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sunshine App!" />
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_forecast"
+        android:name="if_else.in.sunshine.ForcastFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="if_else.in.sunshine.MainActivity"
+        tools:layout="@android:layout/list_content" />
+
 </RelativeLayout>
