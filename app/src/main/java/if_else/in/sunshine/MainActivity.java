@@ -1,11 +1,15 @@
 package if_else.in.sunshine;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,13 +61,31 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings_main) {
+            startActivity(new Intent(this,SettingsActivity.class));
+            return true;
+        }
+        if (id == R.id.action_map) {
+            openLocationOnMap();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void openLocationOnMap(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String zip = preferences.getString(getString(R.string.app_setting_key), getString(R.string.app_setting_default_value));
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q",zip).build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if(intent.resolveActivity(getPackageManager())!=null)
+            startActivity(intent);
+        else
+            Log.e("MainActivity","no location Intent");
+    }
     @Override
     public void onStart() {
         super.onStart();
